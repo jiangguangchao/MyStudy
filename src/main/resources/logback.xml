@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="false">
+
+	<!-- 日志输出格式  -->
+	<property name="log_pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %c.%M >>>>>>> %msg%n"></property>
+	
+	<!-- 日志输出文件位置 -->
+	<property name="log_fileDir" value="F:/log/myeclipse_project/MyStudy/log/"></property>
+	
+	<!-- 日志文件最大数量 ，可以设置按天或者按月生成新的日志文件,如果按天，表示最多保留180天的日志文件-->
+	<property name="log_maxHistory" value="180"></property>
+	
+	
+	<!-- 输出到控制台 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- 格式 -->
+		<encoder >
+			<pattern>${log_pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 输出到文件 -->
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 格式 -->
+		<encoder >
+			<pattern>${log_pattern}</pattern>
+		</encoder>
+		
+		<!-- 依据时间滚动记录 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			
+			<!-- 每天产生新的日志文件 -->
+			<fileNamePattern>${log_fileDir}%d{yyyy-MM-dd}.log</fileNamePattern>
+			
+			<!-- 最大的日志文件数量，超出该数量后，删除最旧的日志文件 -->
+			<maxHistory>${log_maxHistory}</maxHistory>
+		</rollingPolicy>
+		
+	</appender>
+	
+	<!-- 日志级别    TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF， -->
+	<root levle="info">
+		<appender-ref ref="console"></appender-ref>
+		<appender-ref ref="file"></appender-ref>
+	</root>
+</configuration>
