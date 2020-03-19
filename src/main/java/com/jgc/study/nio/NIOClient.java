@@ -10,7 +10,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * @Description:NIO client端
+ * @Description:NIO client端 
+ * 参考https://www.cnblogs.com/snailclimb/p/9086334.html
  * 
  * @author jgc
  * 
@@ -29,21 +30,37 @@ public class NIOClient {
 		// 将通道设置为非阻塞
 		channel.configureBlocking(false);
 
-		// 客户端连接服务器，其实方法执行并没有实现连接，需要在handleConnect方法中调channel.finishConnect()才能完成连接
+		/*
+		 * 客户端连接服务器，其实方法执行并没有实现连接，需要在handleConnect方法中调
+		 * channel.finishConnect()才能完成连接
+		 * 因为是去连接服务器（实际上就是连接服务器上的某个channel），服务器就可以监听到
+		 */
 		channel.connect(new InetSocketAddress("localhost", 8989));
 
-		/**
-		 * 将通道(Channel)注册到通道管理器(Selector)，并为该通道注册selectionKey.OP_CONNECT
-		 * 注册该事件后，当事件到达的时候，selector.select()会返回， 如果事件没有到达selector.select()会一直阻塞。
+		/*
+		 * 将channel注册到管理器(selector)中,并生成对应的key(SelectionKey对象)。
+		 * channel注册过程可以这样理解，实际上是生成一个SelectionKey对象，SelectionKey
+		 * 对象的一个属性为channel对象的引用。所以有方法key.channel()返回 SelectionKey
+		 * 对象对应的channel。
+		 * register(Selector sel,int ops)方法的第二个 参数是指定当前通道（channel）
+		 * 关注的事件
+		 * 
+		 * 1. SelectionKey.OP_CONNECT:一般用于客户端，表示客户端将向指定的服务器发送连接请求
+		 * 2. SelectionKey.OP_ACCEPT：一般用于服务端，表示服务器将接收客户端的连接请求。
+		 * 3. SelectionKey.OP_READ: 表示读事件（如果有数据传输过来，会触发该事件，此时并未读取数据）
+		 * 4. SelectionKey.OP_WRITE: 表示写事件（写数据时触发） 通常只关心前3个事件，写事件无需关心
 		 */
 		channel.register(selector, SelectionKey.OP_CONNECT);
 
+		boolean f = false;
 		// 循环处理
-		while (true) {
+		while (f) {
+
 			/*
-			 * 选择一组可以进行I/O操作的事件，放在selector中，客户端的该方法不会阻塞，
-			 * selector的wakeup方法被调用，方法返回，而对于客户端来说，通道一直是被选中的
-			 * 这里和服务端的方法不一样，查看api注释可以知道，当至少一个通道被选中时。
+			 * 
+			 * 该方法可以传long类型的参数，如果不传，或者传0L,该方法会一直阻塞，直到有事件产生，
+			 * 如果传参数，比如1000L，表示仅仅监听1000毫秒这个时间段产生的事件
+			 * 
 			 */
 			selector.select();
 
