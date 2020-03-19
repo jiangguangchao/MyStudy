@@ -39,7 +39,7 @@
 	</appender>
 	
 	<!-- 日志级别    TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF， -->
-	<root levle="info">
+	<root level="info">
 		<appender-ref ref="console"></appender-ref>
 		<appender-ref ref="file"></appender-ref>
 	</root>
