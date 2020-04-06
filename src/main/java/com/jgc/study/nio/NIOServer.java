@@ -1,5 +1,8 @@
 package com.jgc.study.nio;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -21,6 +24,9 @@ import java.util.Set;
  */
 
 public class NIOServer {
+
+	private static final Logger log= LoggerFactory.getLogger(NIOServer.class);
+
 	// 通道管理器(Selector)
 	private static Selector selector;
 
@@ -42,6 +48,8 @@ public class NIOServer {
 		 * 注册该事件后，当事件到达的时候，selector.select()会返回， 如果事件没有到达selector.select()会一直阻塞。
 		 */
 		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+		log.info("NIO server 已开启，等待client连接");
 
 		// 循环处理
 		while (true) {

@@ -5,9 +5,11 @@
 	<groupId>com.jgc.study</groupId>
 	<artifactId>MyStudy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<build>
-	</build>
 
+	<properties>
+		<!--指定maven编译的编码格式-->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -24,4 +26,118 @@
 			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<!--
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>mavenTest/maven1.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		-->
+
+
+
+		<plugins>
+
+			<!--次插件可以指定打包的main方法，别且将依赖jar文件也打进来，最总生成一个包含依赖的jar文件-->
+			<!--<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							&lt;!&ndash; 此处指定main方法入口的class &ndash;&gt;
+							<mainClass>com.jgc.study.nio.NIOServer</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>-->
+
+
+
+			<!--打jar包插件，可以指定排除哪些文件，这些文件不会被打到jar包中-->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<excludes>
+						<!--排除所有的xml文件-->
+						<exclude>**/*.xml</exclude>
+						<!--排除所有的properties文件-->
+						<exclude>**/*.properties</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>com.jgc.study.nio.NIOServer</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+
+			<!--打包时将依赖复制到指定目录-->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<!--copy-dependencies表示复制依赖到指定的目录,具体的目录有下面指定-->
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!--指定要复制到哪里-->
+					<outputDirectory>target/lib/</outputDirectory>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<!--表示拷贝资源文件到某一目录下，具体哪个目录下面指定,默认情况下，资源文件就是src/main/resources
+							和src/test/resources目录下的文件，也可以通过在build下的resources节点具体指定-->
+							<goal>copy-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!--指定资源文件要拷贝到哪个目录-->
+					<outputDirectory>target/resources/</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>6</source>
+					<target>6</target>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
 </project>
