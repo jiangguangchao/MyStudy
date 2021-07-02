@@ -25,6 +25,24 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+		<!--cglib-->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -75,67 +93,68 @@
 
 
 			<!--打jar包插件，可以指定排除哪些文件，这些文件不会被打到jar包中-->
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<excludes>
-						<!--排除所有的xml文件-->
-						<exclude>**/*.xml</exclude>
-						<!--排除所有的properties文件-->
-						<exclude>**/*.properties</exclude>
-					</excludes>
-					<archive>
-						<manifest>
-							<mainClass>com.jgc.study.nio.NIOServer</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<artifactId>maven-jar-plugin</artifactId>-->
+<!--				<version>2.4</version>-->
+<!--				<configuration>-->
+<!--					<excludes>-->
+<!--						&lt;!&ndash;排除所有的xml文件&ndash;&gt;-->
+<!--						<exclude>**/*.xml</exclude>-->
+<!--						&lt;!&ndash;排除所有的properties文件&ndash;&gt;-->
+<!--						<exclude>**/*.properties</exclude>-->
+<!--					</excludes>-->
+<!--					<archive>-->
+<!--						<manifest>-->
+<!--							<mainClass>com.jgc.study.nio.NIOServer</mainClass>-->
+<!--						</manifest>-->
+<!--					</archive>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 
 
-			<!--打包时将依赖复制到指定目录-->
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<!--copy-dependencies表示复制依赖到指定的目录,具体的目录有下面指定-->
-							<goal>copy-dependencies</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<!--指定要复制到哪里-->
-					<outputDirectory>target/lib/</outputDirectory>
-				</configuration>
-			</plugin>
+<!--			&lt;!&ndash;打包时将依赖复制到指定目录&ndash;&gt;-->
+<!--			<plugin>-->
+<!--				<artifactId>maven-dependency-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							&lt;!&ndash;copy-dependencies表示复制依赖到指定的目录,具体的目录有下面指定&ndash;&gt;-->
+<!--							<goal>copy-dependencies</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--				<configuration>-->
+<!--					&lt;!&ndash;指定要复制到哪里&ndash;&gt;-->
+<!--					<outputDirectory>target/lib/</outputDirectory>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 
 
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<!--表示拷贝资源文件到某一目录下，具体哪个目录下面指定,默认情况下，资源文件就是src/main/resources
-							和src/test/resources目录下的文件，也可以通过在build下的resources节点具体指定-->
-							<goal>copy-resources</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<!--指定资源文件要拷贝到哪个目录-->
-					<outputDirectory>target/resources/</outputDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>6</source>
-					<target>6</target>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<artifactId>maven-resources-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							&lt;!&ndash;表示拷贝资源文件到某一目录下，具体哪个目录下面指定,默认情况下，资源文件就是src/main/resources-->
+<!--							和src/test/resources目录下的文件，也可以通过在build下的resources节点具体指定&ndash;&gt;-->
+<!--							<goal>copy-resources</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--				<configuration>-->
+<!--					&lt;!&ndash;指定资源文件要拷贝到哪个目录&ndash;&gt;-->
+<!--					<outputDirectory>target/resources/</outputDirectory>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<source>6</source>-->
+<!--					<target>6</target>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+
 
 		</plugins>
 
