@@ -146,14 +146,20 @@
 <!--					<outputDirectory>target/resources/</outputDirectory>-->
 <!--				</configuration>-->
 <!--			</plugin>-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-compiler-plugin</artifactId>-->
-<!--				<configuration>-->
-<!--					<source>6</source>-->
-<!--					<target>6</target>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
+
+			<!--指定maven编译的版本，不知道这里和idea 设置中的 java compiler设置的编译版本的区别是什么
+			注意：这里说的java compiler设置不是idea 设置中 module 的language level（不过language level也可以指定版本，
+			好多地方指定版本啊）
+			可能这里指的是 maven编译后打成jar包，jar包中class文件对应的jdk版本，而idea设置指的是在当前idea环境下运行代码需要
+			编译的版本，这些编译后的class文件是在target文件夹下，以上只是猜测-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 
 
 		</plugins>
